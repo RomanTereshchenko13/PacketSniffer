@@ -2,23 +2,16 @@
 #include <thread>
 #include <signal.h>
 
-bool running = true;
-
-void signalHandler(int signum) 
-{
-    running = false;
-}
-
 int main(int argc, const char** argv) 
 {
-    signal(SIGINT, signalHandler);
-
     PacketSniffer sniffer;
 
     std::thread t(&PacketSniffer::Start, &sniffer);
 
-    while (running) {
-        //TODO
+    while (sniffer.IsRunning()) {
+        auto [receivedBytes, sentBytes] = sniffer.GetTotalBytes();
+        std::cout << "Total Sent: " << sentBytes << " bytes, Total Received: " << receivedBytes << " bytes\n";
+        std::this_thread::sleep_for(std::chrono::seconds(3));
     }
 
     sniffer.Stop();

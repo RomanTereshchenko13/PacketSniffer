@@ -13,6 +13,11 @@ class RawSocket
 public:
     RawSocket();
     ~RawSocket();
+    RawSocket(RawSocket&&) = default;
+    RawSocket& operator=(RawSocket&&) = default;
+
+    RawSocket(const RawSocket&) = delete;
+    RawSocket& operator=(const RawSocket&) = delete;
 
     std::vector<uint8_t> ReceivePacket();
     int GetDescriptor() const;

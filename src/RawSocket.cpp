@@ -17,7 +17,23 @@ RawSocket::~RawSocket()
 
 std::vector<uint8_t> RawSocket::ReceivePacket()
 {
-    return std::vector<uint8_t>();
+    const size_t bufferSize = 65536;
+    std::vector<uint8_t> buffer(bufferSize);
+
+    sockaddr_in sender;
+    socklen_t senderSize = sizeof(sender);
+
+    ssize_t packetSize = recvfrom(m_sockfd, buffer.data(), bufferSize, 0, 
+                                  reinterpret_cast<sockaddr*>(&sender), &senderSize);
+
+    if (packetSize < 0)
+    {
+        perror("recvfrom() failed");
+        exit(EXIT_FAILURE);
+    }
+
+    buffer.resize(packetSize);
+    return buffer;
 }
 
 int RawSocket::GetDescriptor() const
