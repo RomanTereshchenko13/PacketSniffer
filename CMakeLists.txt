@@ -1,14 +1,21 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.16)
 project(PacketSniffer)
 
 set(CMAKE_CXX_STANDARD 17)
 
-set(SOURCES
-    src/main.cpp
-    src/PacketSniffer.cpp
-
+set(HEADERS
+    src/RawSocket.h
+    src/PacketSniffer.h
+    src/ProcessPacket.h
 )
 
-add_executable(PacketSniffer ${SOURCES})
+set(SOURCES
+    src/main.cpp
+    src/RawSocket.cpp
+    src/PacketSniffer.cpp
+    src/ProcessPacket.cpp
+)
+
+add_executable(PacketSniffer ${HEADERS} ${SOURCES})
 
 

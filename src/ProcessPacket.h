@@ -2,6 +2,14 @@
 #define PROCESSPACKET_H
 
 #include <vector>
+#include <stdint.h>
+
+#include <netinet/ip.h>   // struct ip
+#include <netinet/tcp.h>  // struct tcphdr
+#include <netinet/udp.h>  // struct udphdr
+#include <netinet/ip_icmp.h> // struct icmphdr
+#include <arpa/inet.h>
+#include <net/ethernet.h> 
 
 class ProcessPacket
 {
