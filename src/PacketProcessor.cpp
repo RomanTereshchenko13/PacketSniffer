@@ -1,9 +1,9 @@
-#include "ProcessPacket.h"
+#include "PacketProcessor.h"
 
-ProcessPacket::ProcessPacket() 
+PacketProcessor::PacketProcessor() 
     : m_totalReceivedBytes(0), m_totalSentBytes(0) {}
 
-void ProcessPacket::Process(const std::vector<uint8_t>&packet)
+void PacketProcessor::Process(const std::vector<uint8_t>&packet)
 {
         if (packet.size() < sizeof(struct ip)) {
             return; // Packet is too small to be valid
@@ -12,12 +12,12 @@ void ProcessPacket::Process(const std::vector<uint8_t>&packet)
         m_totalReceivedBytes += packet.size();
 }
 
-unsigned long long ProcessPacket::GetTotalReceivedBytes() const
+unsigned long long PacketProcessor::GetTotalReceivedBytes() const
 {
     return m_totalReceivedBytes;
 }
 
-unsigned long long ProcessPacket::GetTotalSentBytes() const
+unsigned long long PacketProcessor::GetTotalSentBytes() const
 {
     return m_totalSentBytes;
 }

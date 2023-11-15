@@ -1,5 +1,5 @@
-#ifndef PROCESSPACKET_H
-#define PROCESSPACKET_H
+#ifndef PACKETPROCESSOR_H
+#define PACKETPROCESSOR_H
 
 #include <vector>
 #include <stdint.h>
@@ -11,10 +11,10 @@
 #include <arpa/inet.h>
 #include <net/ethernet.h> 
 
-class ProcessPacket
+class PacketProcessor
 {
 public:
-    ProcessPacket();
+    PacketProcessor();
     void Process(const std::vector<uint8_t>& packet);
 
     unsigned long long GetTotalReceivedBytes() const;
@@ -25,4 +25,4 @@ private:
     unsigned long long m_totalSentBytes;
 };
 
-#endif // PROCESSPACKET_H
+#endif // PACKETPROCESSOR_H

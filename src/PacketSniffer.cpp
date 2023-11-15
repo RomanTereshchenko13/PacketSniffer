@@ -24,11 +24,6 @@ void PacketSniffer::Stop()
     b_running = false;
 }
 
-std::pair<unsigned long long, unsigned long long> PacketSniffer::GetTotalBytes() const
-{
-    return std::make_pair(m_processPacket.GetTotalReceivedBytes(), m_processPacket.GetTotalSentBytes());
-}
-
 bool PacketSniffer::IsRunning() const
 {
     return b_running;

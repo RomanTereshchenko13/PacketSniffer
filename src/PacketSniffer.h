@@ -4,7 +4,7 @@
 #include<iostream>
 
 #include"RawSocket.h"
-#include"ProcessPacket.h"
+#include"PacketProcessor.h"
 
 class PacketSniffer {
 public:
@@ -14,12 +14,11 @@ public:
     void Start();
     void Stop();
 
-    std::pair<unsigned long long, unsigned long long> GetTotalBytes() const;
     bool IsRunning() const;
 
 private:
    RawSocket m_socket;
-   ProcessPacket m_processPacket;
+   PacketProcessor m_processPacket;
    bool b_running;
 };
 
