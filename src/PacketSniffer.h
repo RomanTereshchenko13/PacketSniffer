@@ -1,8 +1,6 @@
 #ifndef PACKET_SNIFFER_H
 #define PACKET_SNIFFER_H
 
-#include<iostream>
-
 #include"RawSocket.h"
 #include"PacketProcessor.h"
 
@@ -17,6 +15,7 @@ public:
 
 private:
    PacketProcessor m_processPacket;
+   RawSocket m_socket;
    bool b_running;
 };
 

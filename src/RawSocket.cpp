@@ -1,6 +1,6 @@
 #include "RawSocket.h"
 
-RawSocket::RawSocket(int protocol, size_t bufferSize) : m_buffer(bufferSize)
+RawSocket::RawSocket(int protocol, size_t bufferSize) : m_buffer(bufferSize) // TODO investigate if this is needed
 {
     m_sockfd = socket(AF_PACKET, SOCK_RAW, htons(protocol));
     if(m_sockfd < 0)
@@ -23,8 +23,8 @@ std::vector<uint8_t> RawSocket::ReceivePacket()
 {
     sockaddr_ll sender;
     socklen_t senderSize = sizeof(sender);
-
-    ssize_t packetSize = recvfrom(m_sockfd, m_buffer.data(), m_buffer.size(), 0, 
+    std::vector<uint8_t> buffer(65536); // 64KB
+    ssize_t packetSize = recvfrom(m_sockfd, buffer.data(), buffer.size(), 0, 
                                   reinterpret_cast<sockaddr*>(&sender), &senderSize);
 
     if (packetSize < 0)
@@ -32,9 +32,8 @@ std::vector<uint8_t> RawSocket::ReceivePacket()
         perror("recvfrom() failed");
         exit(EXIT_FAILURE);
     }
-
-    m_buffer.resize(packetSize);
-    return m_buffer;
+    buffer.resize(packetSize);
+    return buffer;
 }
 
 int RawSocket::GetDescriptor() const

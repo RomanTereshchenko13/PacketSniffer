@@ -27,7 +27,7 @@ public:
 
 private:
     int m_sockfd;
-    std::vector<uint8_t> m_buffer;
+    std::vector<uint8_t> m_buffer; // TODO investigate if this is needed
 };
 
 #endif // RAWSOCKET_H
