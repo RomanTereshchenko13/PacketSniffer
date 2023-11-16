@@ -16,7 +16,6 @@ public:
     bool IsRunning() const;
 
 private:
-   RawSocket m_socket;
    PacketProcessor m_processPacket;
    bool b_running;
 };
