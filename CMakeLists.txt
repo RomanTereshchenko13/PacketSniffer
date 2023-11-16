@@ -6,14 +6,14 @@ set(CMAKE_CXX_STANDARD 17)
 set(HEADERS
     src/RawSocket.h
     src/PacketSniffer.h
-    src/ProcessPacket.h
+    src/PacketProcessor.h
 )
 
 set(SOURCES
     src/main.cpp
     src/RawSocket.cpp
     src/PacketSniffer.cpp
-    src/ProcessPacket.cpp
+    src/PacketProcessor.cpp
 )
 
 add_executable(PacketSniffer ${HEADERS} ${SOURCES})

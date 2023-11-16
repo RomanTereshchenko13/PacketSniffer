@@ -8,14 +8,13 @@ PacketSniffer::~PacketSniffer()
 
 }
 
-void PacketSniffer::Start()
+void PacketSniffer::Start(int protocol)
 {
     b_running = true;
-    while(b_running)
-    {
-        auto packet = m_socket.ReceivePacket();
-        if(packet.size() > 0)
-            m_processPacket.Process(packet);        
+    while (b_running) {
+        RawSocket socket(protocol);
+        std::vector<uint8_t> packet = socket.ReceivePacket();
+        m_processPacket.ProcessPacket(packet);
     }
 }
 

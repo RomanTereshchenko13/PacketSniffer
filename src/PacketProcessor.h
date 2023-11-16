@@ -15,14 +15,10 @@ class PacketProcessor
 {
 public:
     PacketProcessor();
-    void Process(const std::vector<uint8_t>& packet);
-
-    unsigned long long GetTotalReceivedBytes() const;
-    unsigned long long GetTotalSentBytes() const;
+    void ProcessPacket(const std::vector<uint8_t>&packet);
 
 private:
-    unsigned long long m_totalReceivedBytes;
-    unsigned long long m_totalSentBytes;
+
 };
 
 #endif // PACKETPROCESSOR_H

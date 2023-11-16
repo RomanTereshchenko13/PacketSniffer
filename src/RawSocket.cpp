@@ -2,12 +2,12 @@
 
 RawSocket::RawSocket(int protocol, size_t bufferSize) : m_bufferSize(bufferSize)
 {
-    m_sockfd = socket(AF_PACKET, SOCK_RAW, htons(protocol));
-    if(m_sockfd < 0)
-    {
-        perror("socket() failed");
-        exit(EXIT_FAILURE);
-    }
+        m_sockfd = socket(AF_PACKET, SOCK_RAW, htons(protocol));
+        if(m_sockfd < 0)
+        {
+            perror("socket() failed");
+            exit(EXIT_FAILURE);
+        }
 }
 
 RawSocket::~RawSocket()
