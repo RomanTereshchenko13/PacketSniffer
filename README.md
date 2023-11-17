@@ -12,14 +12,16 @@ Packet Sniffer is a network analysis tool designed to capture and display the co
 ## Installation
 ### Building with CMake
 1. Clone the repository:
+   
    git clone https://github.com/RomanTereshchenko13/PacketSniffer.git
-2. Navigate to the cloned directory:
+   
+3. Navigate to the cloned directory:
    cd PacketSniffer
-3. Create a build directory and navigate into it:
+4. Create a build directory and navigate into it:
    mkdir build && cd build
-4. Run CMake to configure the project and generate a Makefile:
+5. Run CMake to configure the project and generate a Makefile:
    cmake ..
-5. Compile the project:
+6. Compile the project:
    make
 
 ## Usage
