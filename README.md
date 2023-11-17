@@ -10,7 +10,17 @@ Packet Sniffer is a network analysis tool designed to capture and display the co
 - CMake for building the project
 
 ## Installation
-Compile the source code using a C++ compiler. Ensure you have the necessary permissions to create and use raw sockets.
+### Building with CMake
+1. Clone the repository:
+   git clone https://github.com/RomanTereshchenko13/PacketSniffer.git
+2. Navigate to the cloned directory:
+   cd PacketSniffer
+3. Create a build directory and navigate into it:
+   mkdir build && cd build
+4. Run CMake to configure the project and generate a Makefile:
+   cmake ..
+5. Compile the project:
+   make
 
 ## Usage
 Run the Packet Sniffer executable. The application provides a simple text-based user interface with multiple options:
@@ -35,25 +45,6 @@ Processes captured packets. It parses different headers (Ethernet, IP, TCP, UDP,
 - UDP
 - ICMP
 - IGMP
-- 
-## Installation
-### Building with CMake
-1. Clone the repository:
-   git clone https://github.com/RomanTereshchenko13/PacketSniffer.git
-2. Navigate to the cloned directory:
-   cd PacketSniffer
-3. Create a build directory and navigate into it:
-   mkdir build && cd build
-4. Run CMake to configure the project and generate a Makefile:
-   cmake ..
-5. Compile the project:
-   make
-
-## Example Usage
-1. Run the Packet Sniffer.
-2. Choose `1. Start Sniffing`.
-3. Select the desired protocol to sniff.
-4. Observe the packet information on the console.
 
 ## Troubleshooting
 - Ensure you have root privileges to use raw sockets.
