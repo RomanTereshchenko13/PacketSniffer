@@ -1,5 +1,4 @@
 #include "PacketSniffer.h"
-#include <thread>
 #include <signal.h>
 #include <iostream>
 
@@ -11,24 +10,28 @@ void signalHandler(int signum)
 
 void MainMenu()
 {
+    using namespace COLORS;
+
     std::cout << "\n=====================================\n";
-    std::cout << "       Welcome to Packet Sniffer!\n";
+    std::cout << GREEN << "       Welcome to Packet Sniffer!\n" << RESET;
     std::cout << "=====================================\n";
-    std::cout << "1. Start Sniffing - Begin packet sniffing on a selected protocol\n";
-    std::cout << "2. Help - Display help information about the tool\n";
-    std::cout << "3. Exit - Close the application\n";
-    std::cout << "\nPlease select an option: ";
+    std::cout << YELLOW << "1. Start Sniffing\n" << RESET;
+    std::cout << YELLOW << "2. Help\n" << RESET;
+    std::cout << YELLOW << "3. Exit\n" << RESET;
+    std::cout << "\n" << CYAN << "Please select an option: " << RESET;
 }
 
 int GetProtocol() 
 {
+    using namespace COLORS;
+
     int protocolChoice;
-    std::cout << "Select protocol to sniff:\n";
-    std::cout << "1. IP\n";
+    std::cout << GREEN << "Select protocol to sniff:\n" << RESET;
+    std::cout << YELLOW << "1. IP\n";
     std::cout << "2. TCP\n";
     std::cout << "3. UDP\n";
     std::cout << "4. ICMP\n";
-    std::cout << "5. IMGP\n ";
+    std::cout << "5. IMGP\n " << RESET;
     std::cout << "\nPlease choose a protocol: ";
     std::cin >> protocolChoice;
 

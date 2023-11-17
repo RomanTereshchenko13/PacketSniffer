@@ -1,6 +1,6 @@
 #include "RawSocket.h"
 
-RawSocket::RawSocket(int protocol, size_t bufferSize) : m_buffer(bufferSize) // TODO investigate if this is needed
+RawSocket::RawSocket(int protocol, size_t bufferSize)
 {
     m_sockfd = socket(AF_PACKET, SOCK_RAW, htons(protocol));
     if(m_sockfd < 0)

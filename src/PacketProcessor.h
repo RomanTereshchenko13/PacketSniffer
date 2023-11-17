@@ -9,9 +9,9 @@
 #include <iostream>
 #include <thread>
 
-#include <netinet/tcp.h>  // struct tcphdr
-#include <netinet/udp.h>  // struct udphdr
-#include <netinet/ip_icmp.h> // struct icmphdr
+#include <netinet/tcp.h> 
+#include <netinet/udp.h>  
+#include <netinet/ip_icmp.h> 
 #include <arpa/inet.h>
 #include <net/ethernet.h> 
 
@@ -28,6 +28,7 @@ private:
     std::string srcIP;
     std::string dstIP;
     ssize_t totalPacketsSize = 0;
+
 private:
     void ParseEthernetHeader(const std::vector<uint8_t>& packet, const std::string& timestamp, int protocol);
     void ParseIPPacket(const std::vector<uint8_t>& packet, const std::string& timestamp, int protocol);
