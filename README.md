@@ -13,7 +13,7 @@ Packet Sniffer is a network analysis tool designed to capture and display the co
 ### Building with CMake
 1. Clone the repository:
    
-      git clone https://github.com/RomanTereshchenko13/PacketSniffer.git
+         git clone https://github.com/RomanTereshchenko13/PacketSniffer.git
    
 3. Navigate to the cloned directory:
    
