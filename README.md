@@ -17,19 +17,19 @@ Packet Sniffer is a network analysis tool designed to capture and display the co
    
 3. Navigate to the cloned directory:
    
-      cd PacketSniffer
+         cd PacketSniffer
    
 4. Create a build directory and navigate into it:
    
-      mkdir build && cd build
+         mkdir build && cd build
    
 5. Run CMake to configure the project and generate a Makefile:
    
-      cmake ..
+         cmake ..
    
 6. Compile the project:
    
-      make
+         make
 
 ## Usage
 Run the Packet Sniffer executable. The application provides a simple text-based user interface with multiple options:
