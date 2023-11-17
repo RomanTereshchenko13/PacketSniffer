@@ -3,11 +3,6 @@
 PacketSniffer::PacketSniffer() 
     : b_running(true), m_processPacket(), m_socket() {}
 
-PacketSniffer::~PacketSniffer()
-{
-
-}
-
 void PacketSniffer::Start(int protocol)
 {
     b_running = true;

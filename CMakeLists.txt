@@ -4,6 +4,8 @@ project(PacketSniffer)
 set(CMAKE_CXX_STANDARD 17)
 
 set(HEADERS
+    src/Headers.h
+    src/Colors.h
     src/RawSocket.h
     src/PacketSniffer.h
     src/PacketProcessor.h

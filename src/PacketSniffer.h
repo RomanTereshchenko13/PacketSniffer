@@ -7,7 +7,6 @@
 class PacketSniffer {
 public:
     PacketSniffer();
-    ~PacketSniffer();
 
     void Start(int protocol = ETH_P_ALL);
     void Stop();

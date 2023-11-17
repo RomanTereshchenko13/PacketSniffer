@@ -34,7 +34,7 @@ int GetProtocol()
 
     switch (protocolChoice) {
         case 1:
-            return -1;
+            return IPPROTO_IP;
         case 2:
             return IPPROTO_TCP;
         case 3:
@@ -47,6 +47,15 @@ int GetProtocol()
             std::cout << "Invalid choice. Please try again.\n";
             return GetProtocol();
     }
+}
+
+void ShowHelp() {
+    std::cout << "\nHelp Information:\n";
+    std::cout << "1. Start Sniffing: Choose a protocol (IP, TCP, UDP, ICMP, IGMP) and begin sniffing.\n";
+    std::cout << "2. Stop Sniffing: Stops the current packet sniffing process if active.\n";
+    std::cout << "3. Help: Displays this help information.\n";
+    std::cout << "4. Exit: Closes the Packet Sniffer application.\n";
+    // Add protocol descriptions here
 }
 
 int main(int argc, const char** argv) 
@@ -63,9 +72,9 @@ int main(int argc, const char** argv)
         std::cin >> menuChoice;
 
         if(std::cin.fail()) {
-        std::cin.clear(); // Clear error state
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignore bad input
-        continue; // Skip the rest of the loop iteration
+        std::cin.clear(); 
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
+        continue; 
         }
 
         switch (menuChoice) {
@@ -77,8 +86,10 @@ int main(int argc, const char** argv)
                 break;
             }
             case 2:
-                std::cout << "Help: Choose 1 to start sniffing, 2 to stop, 3 for help, and 4 to exit.\n\n";
+            {
+                ShowHelp();
                 break;
+            }
             case 3:
                 std::cout << "Exiting...\n";
                 return 0;

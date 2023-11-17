@@ -6,6 +6,7 @@
 #include <chrono>
 #include <sstream>
 #include <iomanip>
+#include <iostream>
 #include <thread>
 
 #include <netinet/tcp.h>  // struct tcphdr
@@ -15,6 +16,7 @@
 #include <net/ethernet.h> 
 
 #include "Headers.h"
+#include "Colors.h"
 
 class PacketProcessor
 {
@@ -25,6 +27,8 @@ public:
 private:
     std::string srcIP;
     std::string dstIP;
+    ssize_t totalPacketsSize = 0;
+private:
     void ParseEthernetHeader(const std::vector<uint8_t>& packet, const std::string& timestamp, int protocol);
     void ParseIPPacket(const std::vector<uint8_t>& packet, const std::string& timestamp, int protocol);
     void ParseTCPPacket(const std::vector<uint8_t>& packet, size_t ipHeaderLength,  const std::string& timestamp);

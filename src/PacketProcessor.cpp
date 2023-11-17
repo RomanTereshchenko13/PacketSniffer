@@ -1,7 +1,5 @@
 #include "PacketProcessor.h"
 
-#include <iostream>
-
 PacketProcessor::PacketProcessor()  {}
 
 void PacketProcessor::ProcessPacket(const std::vector<uint8_t>&packet, int protocol)
@@ -42,8 +40,6 @@ void PacketProcessor::ParseEthernetHeader(const std::vector<uint8_t> &packet, co
 
 void PacketProcessor::ParseIPPacket(const std::vector<uint8_t> &packet, const std::string &timestamp, int protocol)
 {
-    std::this_thread::sleep_for(std::chrono::milliseconds(500));
-
 
     IPHeader* iph = reinterpret_cast<IPHeader*>(const_cast<uint8_t*>(packet.data()) + ETHERNET_HEADER_SIZE);
 
@@ -58,9 +54,29 @@ void PacketProcessor::ParseIPPacket(const std::vector<uint8_t> &packet, const st
     size_t ipHeaderLength = iph->ihl * 4;
 
     // Check if the packet's protocol matches the specified protocol
-    if (protocol == -1 || iph->protocol == protocol) // TODO: fix protocol check
+    if (iph->protocol == protocol)
     { 
         switch (protocol) {
+            case IPPROTO_TCP:
+                ParseTCPPacket(packet, ipHeaderLength, timestamp);
+                break;
+            case IPPROTO_UDP:
+                ParseUDPPacket(packet, ipHeaderLength, timestamp);
+                break;
+            case IPPROTO_ICMP:
+                ParseICMPPacket(packet, ipHeaderLength, timestamp);
+                break;
+            case IPPROTO_IGMP:
+                ParseIGMPPacket(packet, ipHeaderLength, timestamp);
+                break;
+            default:
+                PrintPacketInfo("", srcIP, dstIP, 0, 0, packet.size(), "Other");
+                break;
+        }
+    }
+    else if (protocol == IPPROTO_IP)
+    {
+        switch (iph->protocol) {
             case IPPROTO_TCP:
                 ParseTCPPacket(packet, ipHeaderLength, timestamp);
                 break;
@@ -87,7 +103,9 @@ void PacketProcessor::ParseTCPPacket(const std::vector<uint8_t> &packet, size_t 
     uint16_t srcPort = ntohs(tcph->source);
     uint16_t dstPort = ntohs(tcph->dest);
 
-    PrintPacketInfo(timestamp, srcIP, dstIP, srcPort, dstPort, packet.size(), "TCP");
+    totalPacketsSize += packet.size();
+
+    PrintPacketInfo(timestamp, srcIP, dstIP, srcPort, dstPort,  packet.size(), "TCP");
 }
 
 void PacketProcessor::ParseUDPPacket(const std::vector<uint8_t> &packet, size_t ipHeaderLength, const std::string &timestamp)
@@ -97,19 +115,25 @@ void PacketProcessor::ParseUDPPacket(const std::vector<uint8_t> &packet, size_t 
     uint16_t srcPort = ntohs(udph->source);
     uint16_t dstPort = ntohs(udph->dest);
 
-    PrintPacketInfo(timestamp, srcIP, dstIP, srcPort, dstPort, packet.size(), "UDP");
+    totalPacketsSize += packet.size();
+
+    PrintPacketInfo(timestamp, srcIP, dstIP, srcPort, dstPort,  packet.size(), "UDP");
 }
 
 void PacketProcessor::ParseICMPPacket(const std::vector<uint8_t> &packet, size_t ipHeaderLength, const std::string &timestamp)
 {
     ICMPHeader* icmph = reinterpret_cast<ICMPHeader*>(const_cast<uint8_t*>(packet.data()) + ETHERNET_HEADER_SIZE + ipHeaderLength);
 
-    PrintPacketInfo(timestamp, srcIP, dstIP, 0, 0, packet.size(), "ICMP");
+    totalPacketsSize += packet.size();
+
+    PrintPacketInfo(timestamp, srcIP, dstIP, 0, 0,  packet.size(), "ICMP");
 }
 
 void PacketProcessor::ParseIGMPPacket(const std::vector<uint8_t> &packet, size_t ipHeaderLength, const std::string &timestamp)
 {
     IGMPHeader* igmph = reinterpret_cast<IGMPHeader*>(const_cast<uint8_t*>(packet.data()) + ETHERNET_HEADER_SIZE + ipHeaderLength);
+
+    totalPacketsSize += packet.size();
 
     PrintPacketInfo(timestamp, srcIP, dstIP, 0, 0, packet.size(), "IGMP");
 }
@@ -117,8 +141,15 @@ void PacketProcessor::ParseIGMPPacket(const std::vector<uint8_t> &packet, size_t
 void PacketProcessor::PrintPacketInfo(const std::string &timestamp, const std::string &srcIP, const std::string &dstIP, 
                                         uint16_t srcPort, uint16_t dstPort, size_t packetSize, const std::string &protocol)
 {
-    std::cout << "Timestamp: " << timestamp << ", Protocol: " << protocol
-              << ", Source IP: " << srcIP << ", Dest IP: " << dstIP
-              << ", Source Port: " << srcPort << ", Dest Port: " << dstPort
-              << ", Payload: " << packetSize - ETHERNET_HEADER_SIZE << " bytes" << std::endl; // TODO: Fix payload size
+    using namespace COLORS;
+
+    std::cout << GREEN << "Timestamp: " << timestamp << RESET
+              << ", " << YELLOW << "Protocol: " << protocol << RESET
+              << ", " << RED << "Source IP: " << srcIP << RESET
+              << ", " << BLUE << "Dest IP: " << dstIP << RESET
+              << ", " << MAGENTA << "Source Port: " << srcPort << RESET
+              << ", " << CYAN << "Dest Port: " << dstPort << RESET
+              << ", " << GREEN << "Packet Size: " << packetSize << " bytes" << RESET
+              << ", " << PURPLE << "Total: " << totalPacketsSize << " bytes" << RESET
+              << std::endl; 
 }
