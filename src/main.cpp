@@ -12,13 +12,13 @@ void MainMenu()
 {
     using namespace COLORS;
 
-    std::cout << "\n=====================================\n";
-    std::cout << GREEN << "       Welcome to Packet Sniffer!\n" << RESET;
-    std::cout << "=====================================\n";
-    std::cout << YELLOW << "1. Start Sniffing\n" << RESET;
-    std::cout << YELLOW << "2. Help\n" << RESET;
-    std::cout << YELLOW << "3. Exit\n" << RESET;
-    std::cout << "\n" << CYAN << "Please select an option: " << RESET;
+    std::cout << "\n┌──────────────────────────────────────┐\n";
+    std::cout << "│ " << YELLOW << "[1] Start " << RESET;
+    std::cout << YELLOW << "[2] Stop " << RESET;
+    std::cout << YELLOW << "[3] Help " << RESET;
+    std::cout << YELLOW << "[4] Exit " << RESET << "│\n";
+    std::cout << "└──────────────────────────────────────┘\n";
+    std::cout << YELLOW << "Please select an option: " << RESET;
 }
 
 int GetProtocol() 
@@ -55,45 +55,62 @@ int GetProtocol()
 void ShowHelp() {
     std::cout << "\nHelp Information:\n";
     std::cout << "1. Start Sniffing: Choose a protocol (IP, TCP, UDP, ICMP, IGMP) and begin sniffing.\n";
-    std::cout << "2. Stop Sniffing: Stops the current packet sniffing process if active.\n";
+    std::cout << "2. Stop Sniffing: Stop sniffing packets.\n";
     std::cout << "3. Help: Displays this help information.\n";
-    std::cout << "4. Exit: Closes the Packet Sniffer application.\n";
-    // Add protocol descriptions here
+    std::cout << "3. Exit: Closes the Packet Sniffer application.\n";
 }
 
 int main(int argc, const char** argv) 
 {
+    std::cout << "\n=====================================\n";
+    std::cout << COLORS::GREEN << "       Welcome to Packet Sniffer!\n" << COLORS::RESET;
+    std::cout << "=====================================\n";
+
     signal(SIGINT, signalHandler);
 
     std::thread snifferThread;
-    bool isRunning = false;
     PacketSniffer sniffer;
 
-    while (!isRunning) {
+    while (true) {
         MainMenu();
         int menuChoice;
         std::cin >> menuChoice;
 
         if(std::cin.fail()) {
-        std::cin.clear(); 
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
-        continue; 
+            std::cin.clear(); 
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
+            continue; 
         }
 
         switch (menuChoice) {
-            case 1:
-            {
-                int protocol = GetProtocol();
-                isRunning = true;
-                snifferThread = std::thread(&PacketSniffer::Start, &sniffer, protocol);
+            case 1: {
+                if(!sniffer.IsRunning()) {
+                    int protocol = GetProtocol();
+                    snifferThread = std::thread(&PacketSniffer::Start, &sniffer, protocol);
+                }
+                else {
+                    std::cout << "Sniffer is already running.\n";
+                }
                 break;
             }
-            case 2:
-            {
+            case 2: {
+                if (sniffer.IsRunning()) {
+                    sniffer.Stop();
+                    if (snifferThread.joinable()) {
+                        snifferThread.join();
+                    }
+                    std::cout << "Stopping...\n";
+                }
+                else {
+                    std::cout << "Sniffer is not running.\n";
+                }
+                break;
+            }
+            case 3: {
                 ShowHelp();
                 break;
             }
-            case 3:
+            case 4:
                 std::cout << "Exiting...\n";
                 return 0;
             default:

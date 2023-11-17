@@ -1,7 +1,7 @@
 #include "PacketSniffer.h"
 
 PacketSniffer::PacketSniffer() 
-    : b_running(true), m_processPacket(), m_socket() {}
+    : b_running(false), m_processPacket(), m_socket() {}
 
 void PacketSniffer::Start(int protocol)
 {
